@@ -1,9 +1,17 @@
 
 <template>
-  <div
-    v-for="item in data.newsdata.data"
-    :key="item.seq">
-    <p>{{item.旅宿名稱}}</p>
+  <div class="header">
+    <H3>高雄市旅宿資料</H3>
+  </div>
+  <div class="row">
+  <div class="col-3"    
+      v-for="(item) in data.newsdata.data"
+      :key="item.seq">
+      <h4>旅宿名稱：{{item.旅宿名稱}}</h4>
+      <p>類別:{{item.類別}}   星等:{{item.星等}}</p>
+
+  </div>
+
   </div>
 </template>
 
@@ -46,5 +54,19 @@ const url = 'https://api.kcg.gov.tw/api/service/Get/8ed53368-e292-4e2a-80a7-434c
 }
 .logo.vue:hover {
   filter: drop-shadow(0 0 2em #42b883aa);
+}
+
+.row{
+
+  display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+.col-3{
+
+  border-style: solid;
+   border-color: black;
+   padding: 1%;
 }
 </style>
