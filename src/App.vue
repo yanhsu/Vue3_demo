@@ -1,46 +1,29 @@
 
 <template>
-  <div class="header">
-    <H3>高雄市旅宿資料</H3>
-  </div>
-  <div class="row">
-  <div class="col-3"    
-      v-for="(item) in data.newsdata.data"
-      :key="item.seq">
-      <h4>旅宿名稱：{{item.旅宿名稱}}</h4>
-      <p>類別:{{item.類別}}   星等:{{item.星等}}</p>
 
-  </div>
+<taipei/>
+  <pagecomponents
+        :total="total"
+        :pageSize = "pageSize"
+        :currentPage = "currentPage"
+        @change-page="changePage"
+      />
 
-  </div>
 </template>
 
 <script setup>
-import axios from 'axios';
-import{reactive,onMounted} from 'vue';
+import pagecomponents from './components/page_components.vue';
+import taipei from './components/TaipeiScenicSpot.vue';
+// import Newtaipei from './components/NewTaipeiScenicSpot.vue';
+// import Taoyuan from './components/TaoyuanScenicSpot.vue';
+// import Taichung from './components/TaichungScenicSpot.vue';
+// import Tainan from './components/TainanScenicSpot.vue';
+// import Kaohsiung from './components/KaohsiungScenicSpot.vue';
 
-//高雄市一般旅館資料
-const url = 'https://api.kcg.gov.tw/api/service/Get/8ed53368-e292-4e2a-80a7-434cf497220c';
+function changePage(currentPage){
+  console.log(currentPage)
+}
 
-
-// const App = {
-//   setup() {
-    
-     const data = reactive({
-          newsdata:'',
-        })
-
-    onMounted(() => {
-
-      axios.get(url)
-      .then((res)=>{
-        console.log(res.data)
-        data.newsdata = res.data
-    })
-  });
-    // return {data};
-  // },
-// }
 </script>
 
 <style scoped>
