@@ -31,12 +31,13 @@ const store = createStore({
             try {
                 //開啟loading  
                 commit('updateLoad', true);
-                console.log('payload:' + JSON.stringify(payload))
-                //取得api
-                let res = await axios.get("https://ptx.transportdata.tw/MOTC/v2/Tourism/ScenicSpot/Taipei?%24filter=Picture%2FPictureUrl1%20ne%20null%20and%20Picture%2FPictureDescription1%20ne%20null&%24top=1&%24skip=" + payload + "&%24format=JSON", {
+                // console.log('payload:' + JSON.stringify(payload))
+
+                let res = await axios.get("https://ptx.transportdata.tw/MOTC/v2/Tourism/ScenicSpot/"+payload.city+"?%24filter=Picture%2FPictureUrl1%20ne%20null%20and%20Picture%2FPictureDescription1%20ne%20null%20and%20Class1%20ne%20null&%24top=1&%24skip=" + payload.skip + "&%24format=JSON", {
                     headers: { 'Accept': 'application/json' },
                 });
                 console.log(res)
+
                 //更新api資料
                 commit('updateData', res.data);
                 //關閉loading   

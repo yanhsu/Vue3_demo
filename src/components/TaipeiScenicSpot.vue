@@ -1,9 +1,18 @@
 <template>
+  <b-card>
+  <b-nav pills>
+      <b-nav-item :active="activeCity=='Taipei'" @click="changeCity('Taipei')">台北市</b-nav-item>
+      <b-nav-item :active="activeCity=='NewTaipei'" @click="changeCity('NewTaipei')">新北市</b-nav-item>
+      <b-nav-item :active="activeCity=='TaoYuan'" @click="changeCity('TaoYuan')">桃園市</b-nav-item>
+      <b-nav-item :active="activeCity=='TaiChung'" @click="changeCity('TaiChung')">台中市</b-nav-item>
+      <b-nav-item :active="activeCity=='TaiNan'" @click="changeCity('TaiNan')">台南市</b-nav-item>
+      <b-nav-item :active="activeCity=='KaoHsiung'" @click="changeCity('KaoHsiung')">高雄市</b-nav-item>
 
+    </b-nav>
+  </b-card>
   <div class="header">
     <h1>台北市觀光景點</h1>
   </div>
-  <!-- <div class="row"> -->
   <div class="scenicSpot"    
       v-for="(item) in source"
       :key="item.ScenicSpotID">
@@ -14,7 +23,8 @@
         <img :src = "item.Picture.PictureUrl1" :alt = "item.Picture.PictureUrl1"/>
       </span>
       <div>
-        <p class="tag">{{item.Class1}}</p><p class="tag">{{item.Level}}</p>
+        <p v-show="item.Class1 !== null" class="tag" >{{item.Class1}}</p>
+        <p v-show="item.Level !== null" class="tag" >{{item.Level}}</p>
       </div>
       <p>{{item.DescriptionDetail}}</p>
       <p>{{item.Phone}}</p>
@@ -58,7 +68,10 @@ const store = useStore()
 
   onMounted(() => {
   //於畫面渲染時取得api資料
-  store.dispatch('getData', currentPage.value-1);
+  store.dispatch('getData',{
+    skip: currentPage.value-1,
+    city: cityArr[activeCity.value].eng
+  });
   console.log(store.state.data);
   });
 
@@ -70,6 +83,42 @@ const store = useStore()
   let total = computed(()=>store.state.data.total);
   //--------------------------------------------
 
+  // 設定當前縣市
+  let activeCity = ref('Taipei');
+
+  // 設定api中的縣市(中英文)
+  const cityArr = reactive(
+    {
+      Taipei: {
+        zh_tw: "台北市",
+        eng:'Taipei'
+      },
+      NewTaipei: {
+        zh_tw: "新北市",
+        eng:'NewTaipei'
+      },
+      TaoYuan: {
+        zh_tw: "桃園市",
+        eng:'Taoyuan'
+      },
+      TaiChung: {
+        zh_tw: "台中市",
+        eng:'Taichung'
+      },
+      TaiNan: {
+        zh_tw: "台南市",
+        eng:'Tainan'
+      },
+      KaoHsiung: {
+        zh_tw: "高雄市",
+        eng:'Kaohsiung'
+      }
+    }
+  )
+  // 換城市
+  function changeCity (city) {
+    activeCity.value = city;
+  }
   //pagination
   //分頁每頁筆數
   let perPage = ref(1);
@@ -77,7 +126,15 @@ const store = useStore()
   let currentPage = ref(1);
   //監聽目前頁數若換頁重新取得api資料
   watch(currentPage, (nv, pv) => {
-    store.dispatch('getData', nv);
+    store.dispatch('getData', { 
+      skip: nv - 1,
+      city: cityArr[activeCity.value].eng});
+  })
+  //監聽目前頁數若換頁重新取得api資料
+  watch(activeCity, (nv, pv) => {
+    store.dispatch('getData', { 
+      skip: currentPage.value - 1,
+      city: cityArr[nv].eng});
   })
 
 </script>

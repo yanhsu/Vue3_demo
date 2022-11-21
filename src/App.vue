@@ -1,24 +1,12 @@
 
 <template>
 
-<taipei/>
-  <!-- <pagecomponents
-      :total="total"
-      :pageSize = "pageSize"
-      :currentPage = "currentPage"
-      @change-page="changePage"
-    /> -->
+<ScenicSpotVue/>
 
 </template>
 
 <script setup>
-import pagecomponents from './components/page_components.vue';
-import taipei from './components/TaipeiScenicSpot.vue';
-// import Newtaipei from './components/NewTaipeiScenicSpot.vue';
-// import Taoyuan from './components/TaoyuanScenicSpot.vue';
-// import Taichung from './components/TaichungScenicSpot.vue';
-// import Tainan from './components/TainanScenicSpot.vue';
-// import Kaohsiung from './components/KaohsiungScenicSpot.vue';
+import ScenicSpotVue from './components/ScenicSpot.vue';
 
 function changePage(currentPage){
   console.log(currentPage)
