@@ -1,8 +1,12 @@
 
 <template>
-
-<ScenicSpotVue/>
-
+<nav>
+    <router-link to="/Home">Go to Home</router-link>
+    <br/>
+    <router-link to="/ScenicSpot">Go to About</router-link>
+  </nav>
+<!-- <ScenicSpotVue/> -->
+<router-view></router-view>
 </template>
 
 <script setup>
