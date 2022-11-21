@@ -1,7 +1,12 @@
 <template>
-
+  <b-card>
+  <b-nav pills>
+      <b-nav-item :active="activeCity=='Taipei'" @click="chgActive('Taipei')">台北市</b-nav-item>
+      <b-nav-item :active="activeCity=='NewTaipei'" @click="chgActive('NewTaipei')">新北市</b-nav-item>
+    </b-nav>
+  </b-card>
   <div class="header">
-    <h1>台北市觀光景點</h1>
+    <h1>{{ cityArr[activeCity].zh_tw }}觀光景點</h1>
   </div>
   <!-- <div class="row"> -->
   <div class="scenicSpot"    
@@ -33,7 +38,7 @@
 
 <script setup>
 // import axios from 'axios';
-import { ref, onMounted, reactive, computed, watch} from 'vue'
+import { ref, onMounted, reactive, computed, watch } from 'vue'
 import { useStore } from 'vuex'
 const store = useStore()
 
@@ -58,7 +63,10 @@ const store = useStore()
 
   onMounted(() => {
   //於畫面渲染時取得api資料
-  store.dispatch('getData', currentPage.value-1);
+  store.dispatch('getData', {
+    skip: currentPage.value-1,
+    city: cityArr[activeCity.value].eng
+  });
   console.log(store.state.data);
   });
 
@@ -69,7 +77,25 @@ const store = useStore()
   let errorMsg = computed(()=>store.state.errorMsg);
   let total = computed(()=>store.state.data.total);
   //--------------------------------------------
-
+  //設定縣市中英對應名稱
+  const cityArr = reactive(
+    {
+      Taipei: {
+        zh_tw: "台北市",
+        eng:'Taipei'
+      },
+      NewTaipei: {
+        zh_tw: "新北市",
+        eng:'NewTaipei'
+      }
+    }
+  )
+  //目前縣市  
+  let activeCity = ref('Taipei');
+  //切換目前縣市
+  function chgActive( city ) {
+    activeCity.value = city
+  }
   //pagination
   //分頁每頁筆數
   let perPage = ref(1);
@@ -77,7 +103,16 @@ const store = useStore()
   let currentPage = ref(1);
   //監聽目前頁數若換頁重新取得api資料
   watch(currentPage, (nv, pv) => {
-    store.dispatch('getData', nv);
+    store.dispatch('getData', { 
+      skip: nv - 1,
+      city: cityArr[activeCity.value].eng});
+  })
+  //監聽目前縣市若切換重新取得api資料
+  watch(activeCity, (nv, pv)=>{
+    store.dispatch('getData', { 
+      skip: currentPage.value -1, 
+      city: cityArr[nv].eng
+    });
   })
 
 </script>

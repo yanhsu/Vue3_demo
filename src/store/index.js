@@ -33,7 +33,7 @@ const store = createStore({
                 commit('updateLoad', true);
                 console.log('payload:' + JSON.stringify(payload))
                 //取得api
-                let res = await axios.get("https://ptx.transportdata.tw/MOTC/v2/Tourism/ScenicSpot/Taipei?%24filter=Picture%2FPictureUrl1%20ne%20null%20and%20Picture%2FPictureDescription1%20ne%20null&%24top=1&%24skip=" + payload + "&%24format=JSON", {
+                let res = await axios.get("https://ptx.transportdata.tw/MOTC/v2/Tourism/ScenicSpot/"+ payload.city + "?%24filter=Picture%2FPictureUrl1%20ne%20null%20and%20Picture%2FPictureDescription1%20ne%20null&%24top=1&%24skip=" + payload.skip + "&%24format=JSON", {
                     headers: { 'Accept': 'application/json' },
                 });
                 console.log(res)
