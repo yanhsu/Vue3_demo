@@ -1,24 +1,16 @@
 
 <template>
-
-<taipei/>
-  <!-- <pagecomponents
-      :total="total"
-      :pageSize = "pageSize"
-      :currentPage = "currentPage"
-      @change-page="changePage"
-    /> -->
-
+<nav>
+    <router-link to="/Home">Go to Home</router-link>
+    <br/>
+    <router-link to="/ScenicSpot">Go to About</router-link>
+  </nav>
+<!-- <ScenicSpotVue/> -->
+<router-view></router-view>
 </template>
 
 <script setup>
-import pagecomponents from './components/page_components.vue';
-import taipei from './components/TaipeiScenicSpot.vue';
-// import Newtaipei from './components/NewTaipeiScenicSpot.vue';
-// import Taoyuan from './components/TaoyuanScenicSpot.vue';
-// import Taichung from './components/TaichungScenicSpot.vue';
-// import Tainan from './components/TainanScenicSpot.vue';
-// import Kaohsiung from './components/KaohsiungScenicSpot.vue';
+import ScenicSpotVue from './components/ScenicSpot.vue';
 
 function changePage(currentPage){
   console.log(currentPage)
